@@ -30,6 +30,12 @@ export default defineSchema({
   }).index("by_slug", ["slug"]),
   programClasses: defineTable({
     class: v.string(),
-    programs: v.array(v.string()),
+    /** Bilingual entries; legacy plain strings supported until seeds are re-run. */
+    programs: v.array(
+      v.union(
+        v.string(),
+        v.object({ title: v.string(), titleAr: v.string() }),
+      ),
+    ),
   }).index("by_class", ["class"]),
 });

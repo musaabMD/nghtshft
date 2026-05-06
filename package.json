@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "convex:push": "convex dev --once",
+    "convex:seed:programClasses": "convex run programCatalog:addMedicalSciencesPrograms && convex run programCatalog:addNursingPrograms && convex run programCatalog:addDentistryPrograms && convex run programCatalog:addPhysicianPrograms",
+    "convex:seed": "npm run convex:seed:programClasses && npm run convex:seed:dentistry",
     "convex:seed:dentistry": "convex run programCatalog:upsertDentistryClass",
     "convex:seed:dentistry:prod": "convex run --prod programCatalog:upsertDentistryClass",
     "convex:seed:programClasses:prod": "convex run --prod programCatalog:addMedicalSciencesPrograms && convex run --prod programCatalog:addNursingPrograms && convex run --prod programCatalog:addDentistryPrograms && convex run --prod programCatalog:addPhysicianPrograms",
@@ -15,6 +18,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.3.0",
+    "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.37.0",
