@@ -7,12 +7,14 @@ import { useAuth } from "@clerk/nextjs";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 const convex = convexUrl ? new ConvexReactClient(convexUrl) : null;
+let hasLoggedMissingConvexUrl = false;
 
 export default function ConvexClientProvider({ children }: { children: ReactNode }) {
   if (!convex) {
-    // Allow local auth setup to run even before Convex is configured.
-    if (process.env.NODE_ENV === "production") {
-      throw new Error("Missing NEXT_PUBLIC_CONVEX_URL in your environment variables.");
+    // Keep rendering so static prerender/build does not fail when Convex is not configured yet.
+    if (!hasLoggedMissingConvexUrl) {
+      console.warn("Missing NEXT_PUBLIC_CONVEX_URL. Convex provider is disabled for this environment.");
+      hasLoggedMissingConvexUrl = true;
     }
     return <>{children}</>;
   }
